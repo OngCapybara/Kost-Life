@@ -1,0 +1,76 @@
+/* Navbar.css */
+
+/* 1. CONTAINER NAVBAR UTAMA */
+/* ... (CSS yang sudah ada untuk .navbar, .nav-links, .nav-item, .nav-item a) ... */
+
+/* 1. Modifikasi .navbar untuk memisahkan item ke kiri dan kanan */
+.navbar {
+    background-color: #2c2c2c;
+    padding: 15px 30px;
+    border-bottom: 2px solid #3c3c3c;
+    display: flex;
+    /* Ganti justify-content: flex-start; */
+    justify-content: space-between; /* <-- Item Kiri dan Kanan Terpisah */
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+}
+
+/* 2. Style untuk tombol Logout */
+.logout-button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    
+    /* Style Merah Agar Menonjol */
+    background-color: #e04f4f; 
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #c43c3c;
+    border-color: #c43c3c; /* Hapus border hover default */
+}
+
+/* 2. DAFTAR LINK NAVIGASI */
+.nav-links {
+    list-style: none; /* Hapus bullet point */
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-right: 25px; /* Jarak antar item navigasi */
+}
+
+/* 3. STYLING LINK */
+.nav-item a {
+    color: #f0f0f0; /* Warna teks link default */
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.nav-item a:hover {
+    color: #64ffda; /* Warna aksen saat di-hover */
+    background-color: #383838; /* Background gelap saat di-hover */
+}
+
+/* Styling untuk link yang sedang aktif (misalnya class 'active') */
+.nav-item a.active {
+    color: #1a1a1a; /* Teks gelap saat aktif */
+    background-color: #64ffda; /* Warna aksen sebagai background yang menonjol */
+    font-weight: 700;
+    box-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
+}

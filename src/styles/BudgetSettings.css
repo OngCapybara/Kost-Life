@@ -1,0 +1,71 @@
+/* BudgetSettings.css */
+
+/* 1. CONTAINER UTAMA (Sama seperti AddTransaction) */
+.budget-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Mulai dari atas, agar rapi di bawah Navbar */
+    padding: 30px; 
+    padding-top: 60px; /* Jarak dari Navbar */
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background-color: #1a1a1a; 
+    color: #f0f0f0;
+}
+
+/* 2. FORM CONTAINER (Sama seperti AddTransaction) */
+.budget-form {
+    background-color: #2c2c2c;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 450px; /* Sedikit lebih sempit dari AddTransaction */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.budget-form h2 {
+    text-align: center;
+    color: #f0f0f0;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+/* 3. STYLING UNTUK INPUT */
+.budget-form input {
+    padding: 14px 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #383838;
+    color: #f0f0f0;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.budget-form input:focus {
+    border-color: #64ffda; /* Warna aksen saat fokus */
+    outline: none;
+}
+
+/* 4. STYLING UNTUK TOMBOL SUBMIT */
+.budget-form button[type="submit"] {
+    padding: 14px;
+    margin-top: 10px;
+    background-color: #64ffda; /* Warna aksen menonjol */
+    color: #1a1a1a;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.budget-form button[type="submit"]:hover {
+    background-color: #49e4c1;
+    transform: translateY(-1px);
+}
