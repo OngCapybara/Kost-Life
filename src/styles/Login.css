@@ -1,79 +1,59 @@
-/* Login.css */
-
-/* 1. PASTIKAN LAYOUT UTAMA MENGISI SELURUH LAYAR */
-/* Kami menggunakan 100% lebar dan tinggi viewport untuk memastikan full screen */
 .login-container {
-    /* Layout */
     display: flex;
-    justify-content: center; /* Tengahkan horizontal */
-    align-items: center;     /* Tengahkan vertikal */
-    
-    /* Ukuran */
-    width: 100vw;   /* Ambil seluruh lebar viewport */
-    height: 100vh;  /* Ambil seluruh tinggi viewport */
-    
-    /* Background & Warna */
-    background-color: #1a1a1a; /* Warna latar belakang gelap (sesuai tema aplikasi Anda) */
-    color: #f0f0f0; /* Warna teks utama terang */
+    justify-content: center; 
+    align-items: center;     
+    width: 100vw;   
+    height: 100vh;  
+    background-color: #1a1a1a; 
+    color: #f0f0f0; 
 }
 
-/* 2. STYLING UNTUK FORMULIR LOGIN */
 .login-form {
-    /* Visual */
-    background-color: #2c2c2c; /* Warna background form sedikit lebih terang dari background utama */
+    background-color: #2c2c2c; 
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); /* Bayangan yang lebih dalam */
-    
-    /* Layout Form */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
     width: 100%;
-    max-width: 380px; /* Batasi lebar form agar tetap fokus dan proporsional */
+    max-width: 380px; 
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Jarak antara elemen form */
+    gap: 15px; 
 }
 
 .login-form h2 {
     text-align: center;
     margin-bottom: 25px;
-    color: #64ffda; /* Warna aksen untuk judul (misalnya hijau muda/cyan) */
+    color: #64ffda;
     font-size: 1.8em;
     font-weight: 600;
 }
 
-/* 3. STYLING UNTUK INPUT FIELD */
 .login-form input {
-    /* Ukuran & Jarak */
     padding: 14px 12px;
-    
-    /* Visual */
     border-radius: 8px;
-    border: 1px solid #444; /* Border tipis gelap */
-    background-color: #383838; /* Warna input field gelap */
-    color: #f0f0f0; /* Teks input terang */
+    border: 1px solid #444; 
+    background-color: #383838; 
+    color: #f0f0f0; 
     font-size: 1em;
     transition: border-color 0.3s ease;
 }
 
 .login-form input:focus {
-    border-color: #64ffda; /* Warna border berubah saat fokus (aksen) */
-    outline: none; /* Hilangkan default outline browser */
+    border-color: #64ffda; 
+    outline: none; 
 }
 
-/* Styling untuk placeholder */
+
 .login-form input::placeholder {
     color: #aaa;
 }
 
-/* 4. STYLING UNTUK TOMBOL */
+
 .login-form button[type="submit"] {
-    /* Ukuran & Jarak */
     padding: 14px;
     margin-top: 10px;
-    
-    /* Visual */
-    background-color: #64ffda; /* Warna aksen yang menonjol */
-    color: #1a1a1a; /* Teks tombol gelap */
+    background-color: #64ffda; 
+    color: #1a1a1a; 
     font-weight: 700;
     border: none;
     border-radius: 8px;
@@ -82,11 +62,10 @@
 }
 
 .login-form button[type="submit"]:hover {
-    background-color: #49e4c1; /* Sedikit lebih gelap saat hover */
-    transform: translateY(-1px); /* Efek sedikit naik */
+    background-color: #49e4c1; 
+    transform: translateY(-1px); 
 }
 
-/* Tambahan: Styling untuk tautan atau teks di bawah form (jika ada) */
 .login-form p a {
     color: #64ffda;
     text-decoration: none;
@@ -94,4 +73,31 @@
 
 .login-form p a:hover {
     text-decoration: underline;
+}
+
+
+/* responsif */
+@media (max-width: 600px) {
+    .login-container {
+        align-items: flex-start;
+        padding-top: 50px; 
+    }
+
+    .login-form {
+        max-width: 90%; 
+        width: 90%; 
+        padding: 30px 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        margin: auto; 
+    }
+
+    .login-form h2 {
+        font-size: 1.6em;
+    }
+
+    .login-form input,
+    .login-form button[type="submit"] {
+        padding: 12px; 
+        font-size: 0.95em;
+    }
 }

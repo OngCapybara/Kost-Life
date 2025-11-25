@@ -1,25 +1,17 @@
-/* AddTransaction.css */
-
-/* 1. CONTAINER UTAMA */
-/* AddTransaction.css (Bagian yang Direvisi) */
-
 /* 1. CONTAINER UTAMA */
 .transaction-container {
     display: flex;
-    justify-content: center; /* Tetap menengahkan horizontal */
-    align-items: flex-start; /* <--- PENTING: Tengahkan secara vertikal di bagian atas container (bukan di tengah) */
-    
+    justify-content: center; 
+    align-items: flex-start; 
     padding: 30px; 
-    padding-top: 60px; /* <--- Tambahkan padding lebih di atas agar tidak terlalu dekat Navbar */
-
+    padding-top: 60px; 
     width: 100%;
-    /* Hapus min-height: calc(100vh - 80px); */ 
-    min-height: 100vh; /* <--- Kembalikan ke 100vh agar background mengisi penuh */
-    
+    min-height: 100vh;
     box-sizing: border-box;
     background-color: #1a1a1a;
     color: #f0f0f0;
 }
+
 
 /* 2. FORM CONTAINER (Tidak ada perubahan di sini) */
 .transaction-form {
@@ -42,6 +34,7 @@
     font-weight: 700;
 }
 
+
 /* 3. STYLING UNTUK INPUT, SELECT, DAN TEXTAREA */
 .transaction-form input,
 .transaction-form select {
@@ -54,26 +47,25 @@
     width: 100%;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
-    /* Hapus margin-bottom dan <br/> di JSX untuk menggunakan gap */
 }
 
 .transaction-form input:focus,
 .transaction-form select:focus {
-    border-color: #64ffda; /* Warna aksen saat fokus */
+    border-color: #64ffda; 
     outline: none;
 }
 
-/* Styling untuk option di select (terkadang sulit di-style, tapi ini dasar) */
 .transaction-form select option {
     background-color: #2c2c2c;
     color: #f0f0f0;
 }
 
+
 /* 4. STYLING UNTUK TOMBOL SUBMIT */
 .transaction-form button[type="submit"] {
     padding: 14px;
     margin-top: 10px;
-    background-color: #64ffda; /* Warna aksen menonjol */
+    background-color: #64ffda; 
     color: #1a1a1a;
     font-weight: 700;
     border: none;
