@@ -6,22 +6,14 @@ import Dashboard from "./pages/Dashboard";
 import AddTransaction from "./pages/AddTransaction";
 import BudgetSettings from "./pages/BudgetSettings";
 
-import { useAuth } from './context/AuthContext'; // <-- Import Auth Context
+import { useAuth } from './context/AuthContext';
 
-// ======================================
-// Komponen Pelindung Rute (PROTECTED ROUTE)
-// ======================================
 const ProtectedRoute = ({ children }) => {
     const { currentUser, loading } = useAuth();
-
     if (loading) return <div style={{textAlign: 'center', padding: '50px'}}>Memverifikasi sesi...</div>;
-    
-    // Jika loading selesai dan tidak ada user, redirect ke /login
     if (!currentUser) return <Navigate to="/login" replace />; 
-    
     return children;
 };
-// ======================================
 
 function App() {
   return (

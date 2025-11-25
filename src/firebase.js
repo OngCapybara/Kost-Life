@@ -3,7 +3,6 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Firebase config dari project kamu
 const firebaseConfig = {
   apiKey: "AIzaSyCCGknSQhKlgn9O3MkLIljB9VE7VJ9qIpY",
   authDomain: "kost-life.firebaseapp.com",
@@ -14,12 +13,8 @@ const firebaseConfig = {
   measurementId: "G-PRV25CV2RS"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
-
-// ini buat login, register, logout
 export const auth = getAuth(app);
-
-// ini buat database Firestore
 export const db = getFirestore(app);
