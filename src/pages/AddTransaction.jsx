@@ -9,9 +9,8 @@ export default function AddTransaction() {
   const navigate = useNavigate();
   const location = useLocation(); 
 
-  // 1. Identifikasi Mode Edit
   const transactionToEdit = location.state?.transactionToEdit;
-  const isEditing = !!transactionToEdit; // true jika mode Edit
+  const isEditing = !!transactionToEdit; 
   
   const [form, setForm] = useState({
     type: "expense",
@@ -19,17 +18,14 @@ export default function AddTransaction() {
     note: ""
   });
   
-  // 🔹 useEffect untuk memuat data transaksi lama saat mode EDIT
   useEffect(() => {
     if (isEditing) {
       setForm({
         type: transactionToEdit.type,
-        // Pastikan amount adalah string agar tampil di input
         amount: String(transactionToEdit.amount), 
         note: transactionToEdit.note
       });
     } else {
-      // Reset form jika beralih kembali ke mode Tambah Baru
       setForm({ type: "expense", amount: "", note: "" });
     }
   }, [isEditing, transactionToEdit]);
@@ -51,49 +47,39 @@ export default function AddTransaction() {
     const userRef = doc(db, "users", user.uid);
 
     try {
-      // Logika update Saldo
       const userSnap = await getDoc(userRef);
       if (!userSnap.exists()) throw new Error("User tidak ditemukan");
       let newBalance = userSnap.data().balance;
       
       if (isEditing) {
-        // --- MODE EDIT ---
         const transRef = doc(db, "transactions", transactionToEdit.id);
         const oldAmount = transactionToEdit.amount;
         const oldType = transactionToEdit.type;
-        
-        // 1a. Membatalkan efek transaksi lama (Reverse Balance)
+
         if (oldType === "expense") {
             newBalance += oldAmount;
         } else {
             newBalance -= oldAmount;
         }
 
-        // 1b. Update transaksi di Firestore
         await updateDoc(transRef, {
           type: form.type,
           amount: amountNum,
           note: form.note,
           updatedAt: new Date()
         });
-        
         alert("Transaksi berhasil diperbarui!🥶");
-
       } else {
-        // --- MODE TAMBAH BARU ---
-        
-        // 1a. Tambah transaksi baru (PENTING: Pastikan UID dan createdAt ada)
         await addDoc(collection(db, "transactions"), {
           uid: user.uid, 
           type: form.type,
           amount: amountNum,
           note: form.note,
-          createdAt: new Date() // Menyimpan timestamp
+          createdAt: new Date() 
         });
         alert("Transaksi berhasil dicatat!🤓☝️");
       }
 
-      // 2. Menerapkan efek transaksi baru/teredit ke saldo (Final Balance Update)
       if (form.type === "expense") {
           newBalance -= amountNum;
       } else {
@@ -115,7 +101,7 @@ export default function AddTransaction() {
       <form onSubmit={handleSubmit} className="transaction-form">
         <h2>{isEditing ? "Edit Transaksi" : "Tambah Transaksi Baru"}</h2>
         
-        {/* Input Tipe */}
+        {}
         <select 
           value={form.type} 
           onChange={(e) => setForm({ ...form, type: e.target.value })}
@@ -124,7 +110,7 @@ export default function AddTransaction() {
           <option value="expense">Expense (Pengeluaran)</option>
         </select>
 
-        {/* Input Jumlah */}
+        {}
         <input
           type="number"
           placeholder="Jumlah (Rp)"
@@ -133,7 +119,7 @@ export default function AddTransaction() {
           required
         />
 
-        {/* Input Catatan */}
+        {}
         <input
           type="text"
           placeholder="Catatan"

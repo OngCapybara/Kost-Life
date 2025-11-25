@@ -10,7 +10,7 @@ import useCountdown from "../hooks/useCountdown";
 import DashboardSummary from "../components/DashboardSummary";
 import TransactionList from "../components/TransactionList";
 import TransactionChart from "../components/TransactionChart"; 
-import PrintButton from "../components/PrintButton"; // <-- Komponen Print Modular
+import PrintButton from "../components/PrintButton";
 
 import "../styles/Dashboard.css"; 
 
@@ -21,10 +21,8 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Ref untuk menargetkan elemen yang akan dicetak (TETAP DI SINI)
   const componentRef = useRef(); 
 
-  // 🔹 Auth check
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) setUser(currentUser);
@@ -34,7 +32,6 @@ export default function Dashboard() {
     return () => unsub();
   }, [navigate]);
 
-  // 🔹 Ambil data user & transaksi
   useEffect(() => {
     if (!user) return;
 
@@ -63,7 +60,6 @@ export default function Dashboard() {
     };
   }, [user]);
 
-  // 🔹 Reset budget function
   const resetBudget = async () => {
     if (!user) return;
     const userRef = doc(db, "users", user.uid);
@@ -74,7 +70,6 @@ export default function Dashboard() {
     await Promise.all(batchDelete);
   };
 
-  // 🔹 Logic Hapus Transaksi (Fungsional)
   const handleDelete = async (transaction) => {
     if (!window.confirm(`Yakin ingin menghapus transaksi "${transaction.note}" senilai Rp ${transaction.amount.toLocaleString('id-ID')}?`)) return;
     try {
@@ -97,12 +92,10 @@ export default function Dashboard() {
     }
   };
 
-  // 🔹 Logic Edit Transaksi (Navigasi)
   const handleEdit = (transaction) => {
     navigate("/add", { state: { transactionToEdit: transaction } });
   };
   
-  // 🔹 Gunakan hook countdown
   const { timeLeft, formatTime } = useCountdown(
     userData?.budgetStart,
     userData?.budgetDuration,
@@ -116,7 +109,6 @@ export default function Dashboard() {
   const budgetPerDay = Math.max(daysLeft, 1) > 0 ? userData.balance / Math.max(daysLeft, 1) : 0;
 
   return (
-    // Bungkus container utama dengan ref={componentRef}
     <div className="dashboard-container" ref={componentRef}> 
       <h2>Dashboard</h2>
       <p>Halo, {userData.name} 👋</p>
@@ -124,7 +116,7 @@ export default function Dashboard() {
       <div className="dashboard-grid">
         {/* KOLOM KIRI: SUMMARY & CHART */}
         <div> 
-          {/* 1. Summary Card */}
+          {}
           <DashboardSummary 
             userData={userData}
             budgetPerDay={budgetPerDay}
@@ -132,16 +124,16 @@ export default function Dashboard() {
             formatTime={formatTime}
           />
 
-          {/* 2. Transaction Chart */}
+          {}
           <div className="chart-container">
             <TransactionChart transactions={transactions} /> 
           </div>
 
-          {/* 3. TOMBOL CETAK (Modular) */}
+          {}
           <PrintButton componentRef={componentRef} /> 
         </div>
 
-        {/* KOLOM KANAN: Transaction List */}
+        {}
         <div className="transaction-section">
           <TransactionList 
             transactions={transactions}

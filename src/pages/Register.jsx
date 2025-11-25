@@ -2,8 +2,8 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { setDoc, doc } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom"; // Import Link dan useNavigate
-import "../styles/Login.css"; // Menggunakan CSS Login agar tampilannya seragam
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/Login.css"; 
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -11,7 +11,7 @@ export default function Register() {
     email: "",
     password: "",
   });
-  const navigate = useNavigate(); // Untuk navigasi setelah register
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,6 @@ export default function Register() {
         form.password
       );
 
-      // Simpan data user ke Firestore
       await setDoc(doc(db, "users", res.user.uid), {
         name: form.name,
         email: form.email,
@@ -31,14 +30,13 @@ export default function Register() {
       });
 
       alert("Registermu berhasil!. Silakan Login🥰");
-      navigate("/login"); // Arahkan ke halaman Login setelah berhasil
+      navigate("/login"); 
     } catch (err) {
       alert(err.message);
     }
   };
 
   return (
-    // Gunakan className yang sama untuk layout full-screen
     <div className="login-container"> 
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Register Akun Baru</h2>
