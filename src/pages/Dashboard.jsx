@@ -90,10 +90,10 @@ export default function Dashboard() {
         newBalance -= amountNum; 
       }
       await updateDoc(userRef, { balance: newBalance });
-      alert("Transaksi berhasil dihapus!");
+      alert("Transaksi berhasil dihapus!🤓");
     } catch (error) {
       console.error("Error deleting transaction:", error);
-      alert("Gagal menghapus transaksi: " + error.message);
+      alert("Gagal menghapus transaksi😔🥀: " + error.message);
     }
   };
 

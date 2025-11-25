@@ -46,7 +46,7 @@ export default function BudgetSettings() {
       balance: Number(budgetForm.budgetTotal) // Saldo awal diatur sama dengan total budget
     });
 
-    alert("Budget berhasil disimpan dan dimulai! 🎉");
+    alert("Budgetmu udah disimpan loh ya😹");
   };
 
   return (

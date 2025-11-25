@@ -12,7 +12,7 @@ export default function Login() {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, form.email, form.password);
-      alert("Login berhasil 🚀");
+      alert("Login berhasil😹");
       navigate("/dashboard");
     } catch (err) {
       alert(err.message);

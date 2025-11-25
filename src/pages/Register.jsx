@@ -30,7 +30,7 @@ export default function Register() {
         balance: 0,
       });
 
-      alert("Register berhasil 🎉. Silakan Login.");
+      alert("Registermu berhasil!. Silakan Login🥰");
       navigate("/login"); // Arahkan ke halaman Login setelah berhasil
     } catch (err) {
       alert(err.message);
@@ -68,8 +68,7 @@ export default function Register() {
         />
 
         <button type="submit">Daftar</button>
-        
-        {/* Tombol untuk navigasi ke Login */}
+        {}
         <p style={{ textAlign: 'center', marginTop: '15px' }}>
           Sudah punya akun? <Link to="/login">Login di sini</Link>
         </p>

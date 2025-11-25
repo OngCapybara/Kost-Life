@@ -38,12 +38,12 @@ export default function AddTransaction() {
     e.preventDefault();
     const user = auth.currentUser;
     if (!user) {
-        alert("Anda harus login untuk mencatat transaksi.");
+        alert("Anda harus login untuk mencatat transaksi😡");
         return;
     }
 
     if (!form.amount || Number(form.amount) <= 0) {
-        alert("Jumlah harus diisi dan lebih dari nol!");
+        alert("Jumlah harus diisi dan lebih dari nol!😡");
         return;
     }
 
@@ -77,7 +77,7 @@ export default function AddTransaction() {
           updatedAt: new Date()
         });
         
-        alert("Transaksi berhasil diperbarui! 🔄");
+        alert("Transaksi berhasil diperbarui!🥶");
 
       } else {
         // --- MODE TAMBAH BARU ---
@@ -90,7 +90,7 @@ export default function AddTransaction() {
           note: form.note,
           createdAt: new Date() // Menyimpan timestamp
         });
-        alert("Transaksi berhasil dicatat! 🎉");
+        alert("Transaksi berhasil dicatat!🤓☝️");
       }
 
       // 2. Menerapkan efek transaksi baru/teredit ke saldo (Final Balance Update)
