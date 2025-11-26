@@ -64,3 +64,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.swal-custom-button.delete-confirm-btn {
+    background-color: #ff6464 !important; /* Warna merah */
+    color: white !important;
+}
+
+.swal-custom-button.delete-confirm-btn:hover {
+    background-color: #e04b4b !important;
+}
