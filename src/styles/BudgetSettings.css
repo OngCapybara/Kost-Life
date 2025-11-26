@@ -1,19 +1,28 @@
-/* MAIN CONTAINER*/
+/* BudgetSettings.css (Disesuaikan) */
+
+/* 1. MAIN CONTAINER */
 .budget-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 30px; 
+    
+    /* Padding horizontal 30px dan padding atas 60px tetap dipertahankan */
+    padding: 0 30px; 
     padding-top: 60px; 
+    
+    /* Padding bawah yang Anda inginkan (80px) */
+    padding-bottom: 80px; /* <--- NILAI 80PX DITERAPKAN DI SINI */
+    
     width: 100%;
-    min-height: 100vh;
+    /* Hapus min-height: 100vh; karena sudah ditangani oleh #root dan .main-content-wrapper */
+    min-height: auto; 
     box-sizing: border-box;
     background-color: #1a1a1a; 
     color: #f0f0f0;
 }
 
 
-/* FORM CONTAINER */
+/* 2. FORM CONTAINER (Tidak diubah) */
 .budget-form {
     background-color: #2c2c2c;
     padding: 40px;
@@ -35,7 +44,7 @@
 }
 
 
-/* STYLING FOR INPUT */
+/* 3. STYLING FOR INPUT (Tidak diubah) */
 .budget-form input {
     padding: 14px 12px;
     border-radius: 8px;
@@ -54,7 +63,7 @@
 }
 
 
-/* STYLINGN FOR SUBMIT BUTTON */
+/* 4. STYLINGN FOR SUBMIT BUTTON (Tidak diubah) */
 .budget-form button[type="submit"] {
     padding: 14px;
     margin-top: 10px;
