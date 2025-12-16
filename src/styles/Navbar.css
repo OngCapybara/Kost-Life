@@ -66,3 +66,96 @@
     font-weight: 700;
     box-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
 }
+
+/* --- 1. CSS untuk Burger Menu (Baru) --- */
+.burger-menu {
+    display: none; /* Sembunyikan secara default (Desktop) */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 1001; /* Pastikan di atas menu nav */
+}
+
+.burger-menu .bar {
+    width: 100%;
+    height: 3px;
+    background-color: #f0f0f0;
+    transition: all 0.3s linear;
+    border-radius: 5px;
+}
+
+/* --- 2. Media Query untuk Mobile (Contoh: max-width 768px) --- */
+@media (max-width: 768px) {
+    
+    /* Tampilkan tombol burger di mobile */
+    .burger-menu {
+        display: flex;
+        order: 2; /* Atur urutan flex item */
+    }
+
+    /* Styling tombol burger saat menu terbuka */
+    .burger-menu.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .burger-menu.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .burger-menu.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* Pengaturan umum navbar agar item sejajar */
+    .navbar {
+        padding: 15px 20px; /* Sedikit padding lebih kecil di mobile */
+    }
+    
+    /* Pengaturan Link Navigasi (Menu Mobile) */
+    .nav-links {
+        /* order: 1; */ /* Tidak perlu order jika mau di sebelah kiri */
+        
+        display: flex;
+        flex-direction: column; /* Link menjadi vertikal */
+        position: absolute;
+        top: 62px; /* Sesuaikan dengan tinggi navbar 15+15+2px border */
+        left: 0;
+        width: 100%;
+        height: 0; /* Sembunyikan secara default */
+        background-color: #2c2c2c; 
+        overflow: hidden; 
+        transition: height 0.3s ease-in-out;
+        z-index: 999;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Saat menu terbuka (isMenuOpen=true) */
+    .nav-links.open {
+        height: auto; 
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    /* Item dan Link di Mobile */
+    .nav-item {
+        margin: 10px 0; /* Jarak vertikal */
+        text-align: center;
+        /* Hapus margin-right bawaan */
+        margin-right: 0; 
+    }
+
+    .nav-item a {
+        display: block; 
+        padding: 12px 10px;
+        /* Pastikan link mengisi lebar */
+        width: 100%; 
+        box-sizing: border-box;
+    }
+
+    /* Pastikan tombol logout tetap di kanan */
+    .logout-button {
+        order: 3;
+    }
+}

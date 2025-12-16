@@ -1,11 +1,19 @@
+import React, { useState } from 'react'; // <-- Import useState
 import { NavLink, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import "../styles/Navbar.css"; 
-import Swal from 'sweetalert2'; // <-- Import SweetAlert2
+import Swal from 'sweetalert2'; 
 
 export default function Navbar() {
   const navigate = useNavigate();
+  // State untuk mengontrol status menu burger
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // <-- State baru
+
+  // Fungsi untuk mengubah status menu
+  const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleLogout = async () => {
     // 1. Konfirmasi Logout dengan SweetAlert2
@@ -19,20 +27,19 @@ export default function Navbar() {
         background: '#2c2c2c',
         color: '#f0f0f0',
         customClass: {
-            confirmButton: 'swal-custom-button delete-confirm-btn', // Menggunakan warna merah
+            confirmButton: 'swal-custom-button delete-confirm-btn',
             popup: 'swal-custom-popup',
         }
     });
 
     if (!result.isConfirmed) {
-        return; // Batalkan aksi jika pengguna menekan 'Batal'
+        return; 
     }
     
     // 2. Lakukan Proses Logout
     try {
       await signOut(auth);
       
-      // Notifikasi sukses (Opsional, karena langsung redirect)
       Swal.fire({
           title: "Sampai Jumpa!",
           text: "Anda telah berhasil logout.",
@@ -44,11 +51,9 @@ export default function Navbar() {
           customClass: { popup: 'swal-custom-popup' }
       });
 
-      // Arahkan ke halaman login
       navigate("/login");
       
     } catch (error) {
-      // Notifikasi gagal
       Swal.fire({
           title: "Gagal Logout!",
           text: `Terjadi error: ${error.message}`,
@@ -63,19 +68,31 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <ul className="nav-links">
+      {/* 1. Daftar Link Navigasi - Tambahkan class 'open' jika menu terbuka */}
+      <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
         <li className="nav-item">
-          <NavLink to="/dashboard">Dashboard</NavLink>
+          {/* Tambahkan onClick={toggleMenu} agar menu tertutup setelah link diklik di mobile */}
+          <NavLink to="/dashboard" onClick={toggleMenu}>Dashboard</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/add">Tambah Transaksi</NavLink>
+          <NavLink to="/add" onClick={toggleMenu}>Tambah Transaksi</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/settings">Set Budget</NavLink>
+          <NavLink to="/settings" onClick={toggleMenu}>Set Budget</NavLink>
         </li>
       </ul>
+
+      {/* 2. Tombol Burger Menu */}
+      <div 
+        className={`burger-menu ${isMenuOpen ? 'active' : ''}`} // <-- Tambahkan class 'active'
+        onClick={toggleMenu} // <-- Fungsi untuk buka/tutup menu
+      >
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
       
-      {/* TOMBOL LOGOUT BARU DI SEBELAH KANAN */}
+      {/* 3. Tombol Logout di Sebelah Kanan */}
       <button onClick={handleLogout} className="logout-button">
         🚪 Logout
       </button>

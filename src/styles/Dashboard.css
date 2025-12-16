@@ -222,6 +222,46 @@
     color: white;
 }
 
+/* Warna tombol */
+.swal-custom-button {
+  background-color: #4caf50 !important;
+  color: white !important;
+  border-radius: 6px !important;
+  padding: 6px 18px !important;
+}
+
+.delete-confirm-btn {
+  background-color: #e53935 !important;
+}
+
+.swal-custom-button:hover,
+.delete-confirm-btn:hover {
+  filter: brightness(1.15);
+}
+
+/* Background popup */
+.swal-custom-popup {
+  border-radius: 12px !important;
+  background: #2c2c2c !important;
+  color: #fafafa !important;
+}
+
+/* Pastikan class ini ada di Dashboard.css */
+.date-separator {
+  /* GARANSI MUNCUL */
+  background-color: #ff0000 !important; /* MERAH */
+  color: #ffff00 !important; /* KUNING TERANG */
+  border: 3px solid blue !important; 
+  
+  /* Styling Rapi */
+  margin: 15px 0 8px 0; 
+  padding: 8px 15px; 
+  border-radius: 6px; 
+  font-weight: bold; 
+  font-size: 0.95rem; 
+  width: 100%;
+}
+
 /* interactive */
 @media print {
     .navbar, 

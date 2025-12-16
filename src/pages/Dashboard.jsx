@@ -11,7 +11,7 @@ import DashboardSummary from "../components/DashboardSummary";
 import TransactionList from "../components/TransactionList";
 import TransactionChart from "../components/TransactionChart"; 
 import PrintButton from "../components/PrintButton";
-import Swal from 'sweetalert2'; // <-- Import SweetAlert2
+import Swal from 'sweetalert2';
 
 import "../styles/Dashboard.css"; 
 
@@ -24,8 +24,6 @@ export default function Dashboard() {
 
   const componentRef = useRef(); 
 
-  // ... (semua useEffect, state, resetBudget, handleEdit tetap sama)
-
   // 🔹 Auth check
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
@@ -36,9 +34,10 @@ export default function Dashboard() {
     return () => unsub();
   }, [navigate]);
 
-  // 🔹 Ambil data user & transaksi
+  // 🔹 Ambil data user & transaksi realtime
   useEffect(() => {
     if (!user) return;
+
     const userRef = doc(db, "users", user.uid);
     const unsubUser = onSnapshot(userRef, (snap) => {
       if (!snap.exists()) return;
@@ -50,95 +49,122 @@ export default function Dashboard() {
         : new Date(data.budgetStart || new Date());
       setUserData({ ...data, balance, budgetDuration, budgetStart });
     });
+
     const transQuery = query(collection(db, "transactions"), where("uid", "==", user.uid));
     const unsubTrans = onSnapshot(transQuery, (snap) => {
+      // Data transaksi diambil, properti 'date' digunakan untuk tanggal
       const trans = snap.docs.map((docu) => ({ id: docu.id, ...docu.data() }));
       setTransactions(trans);
     });
+
     return () => {
       unsubUser();
       unsubTrans();
     };
   }, [user]);
 
-  // 🔹 Reset budget function
+  // 🔹 Reset otomatis jika waktu habis
   const resetBudget = async () => {
     if (!user) return;
+
     const userRef = doc(db, "users", user.uid);
     await updateDoc(userRef, { balance: 0, budgetStart: new Date() });
+
     const q = query(collection(db, "transactions"), where("uid", "==", user.uid));
     const snap = await getDocs(q);
     const batchDelete = snap.docs.map((docu) => deleteDoc(doc(db, "transactions", docu.id)));
     await Promise.all(batchDelete);
   };
 
-  // 🔹 Logic Hapus Transaksi (Fungsional dengan SweetAlert2)
+  // 🔹 Hapus transaksi satuan (SweetAlert)
   const handleDelete = async (transaction) => {
-    // Ganti window.confirm dengan SweetAlert2 untuk konfirmasi penghapusan
     const result = await Swal.fire({
-        title: "Konfirmasi Hapus",
-        text: `Yakin ingin menghapus transaksi "${transaction.note}" senilai Rp ${transaction.amount.toLocaleString('id-ID')}?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Ya, Hapus!",
-        cancelButtonText: "Batal",
-        background: '#2c2c2c',
-        color: '#f0f0f0',
-        customClass: {
-            confirmButton: 'swal-custom-button delete-confirm-btn', // Tambahkan class delete
-            popup: 'swal-custom-popup',
-        }
+      title: "Konfirmasi Hapus",
+      text: `Yakin ingin menghapus "${transaction.note}" senilai Rp ${transaction.amount.toLocaleString('id-ID')}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Hapus!",
+      cancelButtonText: "Batal",
+      background: '#2c2c2c',
+      color: '#f0f0f0',
+      customClass: {
+        confirmButton: 'swal-custom-button delete-confirm-btn',
+        popup: 'swal-custom-popup',
+      }
     });
 
-    if (!result.isConfirmed) return; // Keluar jika pengguna membatalkan
+    if (!result.isConfirmed) return;
 
     try {
       await deleteDoc(doc(db, "transactions", transaction.id));
-      
-      // Reverse Saldo
+
+      // Reverse saldo user
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
       const currentBalance = userSnap.data().balance;
       let newBalance = currentBalance;
       const amountNum = transaction.amount;
-      if (transaction.type === "expense") {
-        newBalance += amountNum; 
-      } else {
-        newBalance -= amountNum; 
-      }
+      newBalance = transaction.type === "expense" ? currentBalance + amountNum : currentBalance - amountNum;
       await updateDoc(userRef, { balance: newBalance });
-      // Ganti alert sukses
+
       Swal.fire({
-          title: "Berhasil!",
-          text: "Transaksi berhasil dihapus.",
-          icon: "success",
-          background: '#2c2c2c',
-          color: '#f0f0f0',
-          confirmButtonText: "OK",
-          customClass: { confirmButton: 'swal-custom-button', popup: 'swal-custom-popup' }
+        title: "Berhasil!",
+        text: "Transaksi telah dihapus.",
+        icon: "success",
+        background: '#2c2c2c',
+        color: '#f0f0f0',
+        confirmButtonText: "OK",
       });
-      
+
     } catch (error) {
-      console.error("Error deleting transaction:", error);
-      // Ganti alert gagal
       Swal.fire({
-          title: "Gagal Menghapus! 😔",
-          text: `Terjadi error: ${error.message}`,
-          icon: "error",
-          background: '#2c2c2c',
-          color: '#f0f0f0',
-          confirmButtonText: "Tutup",
-          customClass: { confirmButton: 'swal-custom-button', popup: 'swal-custom-popup' }
+        title: "Gagal!",
+        text: error.message,
+        icon: "error",
+        background: '#2c2c2c',
+        color: '#f0f0f0',
       });
     }
   };
 
-  // 🔹 Logic Edit Transaksi
+  // 🔹 Hapus semua transaksi + reset saldo
+  const handleDeleteAll = async () => {
+    if (!user) return;
+
+    try {
+      const q = query(collection(db, "transactions"), where("uid", "==", user.uid));
+      const snap = await getDocs(q);
+      const batchDelete = snap.docs.map((docu) => deleteDoc(doc(db, "transactions", docu.id)));
+      await Promise.all(batchDelete);
+
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, { balance: 0 });
+
+      Swal.fire({
+        title: "Berhasil!",
+        text: "Semua transaksi berhasil dihapus dan saldo direset.",
+        icon: "success",
+        background: '#2c2c2c',
+        color: '#f0f0f0',
+      });
+
+    } catch (error) {
+      Swal.fire({
+        title: "Gagal!",
+        text: error.message,
+        icon: "error",
+        background: '#2c2c2c',
+        color: '#f0f0f0',
+      });
+    }
+  };
+
+  // 🔹 Edit transaksi
   const handleEdit = (transaction) => {
     navigate("/add", { state: { transactionToEdit: transaction } });
   };
-  
-  // 🔹 Gunakan hook countdown
+
+  // 🔹 Countdown anggaran
   const { timeLeft, formatTime } = useCountdown(
     userData?.budgetStart,
     userData?.budgetDuration,
@@ -157,9 +183,9 @@ export default function Dashboard() {
       <p>Halo, {userData.name} 👋</p>
       
       <div className="dashboard-grid">
-        {/* KOLOM KIRI: SUMMARY & CHART */}
-        <div> 
-          <DashboardSummary 
+        {/* KIRI: Summary + Chart */}
+        <div>
+          <DashboardSummary
             userData={userData}
             budgetPerDay={budgetPerDay}
             timeLeft={timeLeft}
@@ -170,15 +196,16 @@ export default function Dashboard() {
             <TransactionChart transactions={transactions} /> 
           </div>
 
-          <PrintButton componentRef={componentRef} /> 
+          <PrintButton componentRef={componentRef} />
         </div>
 
-        {/* KOLOM KANAN: Transaction List */}
+        {/* KANAN: Transaction List */}
         <div className="transaction-section">
           <TransactionList 
             transactions={transactions}
-            onDelete={handleDelete} 
-            onEdit={handleEdit}     
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            onDeleteAll={handleDeleteAll}
           />
         </div>
       </div>
