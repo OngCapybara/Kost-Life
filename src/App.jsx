@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import AddTransaction from "./pages/AddTransaction";
 import BudgetSettings from "./pages/BudgetSettings";
 import Footer from "./components/Footer";
+import ProfileSettings from "./pages/ProfileSettings";
 
 import { useAuth } from './context/AuthContext';
 
@@ -22,13 +23,14 @@ function App() {
       <Routes>
         {/* Rute Publik: Selalu bisa diakses */}
         <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
 
         {/* Rute Private: Dibungkus oleh ProtectedRoute */}
-        <Route path="/dashboard" element={<ProtectedRoute><Navbar /><Dashboard /><Footer /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Navbar /><BudgetSettings /><Footer /></ProtectedRoute>} />
-        <Route path="/add" element={<ProtectedRoute><Navbar /><AddTransaction /><Footer /></ProtectedRoute>} />
+        <Route path="/Dashboard" element={<ProtectedRoute><Navbar /><Dashboard /><Footer /></ProtectedRoute>} />
+        <Route path="/BudgetSettings" element={<ProtectedRoute><Navbar /><BudgetSettings /><Footer /></ProtectedRoute>} />
+        <Route path="/AddTransaction" element={<ProtectedRoute><Navbar /><AddTransaction /><Footer /></ProtectedRoute>} />
+        <Route path="/Profile" element={<ProtectedRoute><Navbar /><ProfileSettings /><Footer /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   );
