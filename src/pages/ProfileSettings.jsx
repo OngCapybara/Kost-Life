@@ -142,8 +142,6 @@ export default function ProfileSettings() {
 
     return (
         <div className="profile-settings-container">
-            <h1>⚙️ Pengaturan Profil</h1>
-
             {/* --- Bagian 1: Edit Profil --- */}
             <section className="setting-card">
                 <h2>Edit Detail Profil</h2>
