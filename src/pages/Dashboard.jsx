@@ -24,15 +24,15 @@ export default function Dashboard() {
 
   const componentRef = useRef(); 
 
-  // 🔹 Auth check
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) setUser(currentUser);
-      else navigate("/login");
-      setLoading(false);
-    });
-    return () => unsub();
-  }, [navigate]);
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+        setUser(currentUser);
+    } else {
+        navigate("/login", { replace: true });
+    }
+    setLoading(false);
+  }, [navigate]); // Dependency array harus mencakup navigate
 
   // 🔹 Ambil data user & transaksi realtime
   useEffect(() => {
@@ -161,7 +161,7 @@ export default function Dashboard() {
 
   // 🔹 Edit transaksi
   const handleEdit = (transaction) => {
-    navigate("/add", { state: { transactionToEdit: transaction } });
+    navigate("/AddTransaction", { state: { transactionToEdit: transaction } });
   };
 
   // 🔹 Countdown anggaran
